@@ -1331,6 +1331,17 @@ describe('input', function() {
     expect(scope.name).toEqual('adam');
   });
 
+  it('should not update the model after the "blur" event', function() {
+    compileInput('<input type="text" ng-model="name" name="alias" ng-change="change()" />');
+
+    scope.$apply("name = 'cassius'");
+    browserTrigger(inputElm, 'keydown');
+    browserTrigger(inputElm, 'blur');
+    inputElm.val('muhammad');
+    $browser.defer.flush();
+    expect(scope.name).toEqual('cassius');
+  });
+
   describe('compositionevents', function() {
     it('should not update the model between "compositionstart" and "compositionend" on non android', inject(function($sniffer) {
       $sniffer.android = false;

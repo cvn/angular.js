@@ -994,6 +994,16 @@ function baseInputType(scope, element, attr, ctrl, $sniffer, $browser) {
       }
     };
 
+    var executeDeferredListener = function(event) {
+      if (timeout) {
+        if (event.type !== 'change') {
+          listener(event);
+        }
+        $browser.defer.cancel(timeout);
+        timeout = null;
+      }
+    };
+
     element.on('keydown', function(event) {
       var key = event.keyCode;
 
@@ -1003,6 +1013,8 @@ function baseInputType(scope, element, attr, ctrl, $sniffer, $browser) {
 
       deferListener(event);
     });
+
+    element.on('change blur', executeDeferredListener);
 
     // if user modifies input value using context menu in IE, we need "paste" and "cut" events to catch it
     if ($sniffer.hasEvent('paste')) {
