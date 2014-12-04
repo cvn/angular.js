@@ -1018,8 +1018,8 @@ function baseInputType(scope, element, attr, ctrl, $sniffer, $browser) {
       var key = event.keyCode;
 
       // ignore
-      //    command            modifiers                   arrows
-      if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40)) return;
+      //    command            modifiers                   arrows                tab
+      if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40) || key === 9) return;
 
       deferListener(event, this, this.value);
     });
